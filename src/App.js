@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
+import './App.scss'
+
+import AppRouter from './router/AppRouter'
+import { Init } from './components/init'
+
+export const Context = React.createContext()
+
+const App = () => {
+  const [projectsContext, setProjectsContext] = useState()
+  const [appContext, setAppContext] = useState({ project: null })
+  const [usersContext, setUsersContext] = useState({})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Context.Provider
+      value={{
+        projectsContext,
+        setProjectsContext,
+        appContext,
+        setAppContext,
+        usersContext,
+        setUsersContext
+      }}
+    >
+      <Init />
+      <AppRouter className="container" />
+    </Context.Provider>
+  )
 }
 
-export default App;
+export default App
