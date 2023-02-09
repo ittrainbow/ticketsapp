@@ -11,7 +11,7 @@ import {
   MdOutlineCheckBox,
   MdOutlineDoubleArrow
 } from 'react-icons/md'
-import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { Button } from '@mui/material'
 import moment from 'moment/moment'
 
 import './Project.scss'
@@ -21,12 +21,14 @@ import '../../styles/filters.scss'
 import { db, auth } from '../../db'
 import { Context } from '../../App'
 import { setLoading } from '../../redux/actions'
-import { ticketModal } from '../../UI'
+import { Dropdown, ticketModal } from '../../UI'
+import { getNewTicketId } from '../../helpers/ticketHelper'
 
 export const Project = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
+  const { uid } = user
   const { appContext, usersContext } = useContext(Context)
   const { project } = appContext
 
@@ -40,6 +42,25 @@ export const Project = () => {
     if (!project) navigate('/')
     fetch() // eslint-disable-next-line
   }, [])
+
+  const createTicket = () => {
+    const date = new Date().getTime()
+
+    setTempTicket({
+      id: getNewTicketId(tickets),
+      created: date,
+      creator: uid,
+      touched: date,
+      toucher: uid,
+      fixed: false,
+      functional: false,
+      issue: '',
+      severityhigh: false,
+      solution: ''
+    })
+
+    setModalOpen(true)
+  }
 
   const sortTickets = (input, style) => {
     setSort(style)
@@ -85,7 +106,7 @@ export const Project = () => {
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
-      const data = { ...tempTicket, toucher: user.uid, touched: new Date().getTime() }
+      const data = { ...tempTicket, toucher: uid, touched: new Date().getTime() }
       delete data['id']
       setTickets({ ...tickets, id: tempTicket })
       await setDoc(doc(db, 'projects', project, 'issues', tempTicket.id), data)
@@ -116,53 +137,64 @@ export const Project = () => {
     sortTickets(tickets, style)
   }
 
+  const filterDropDown = () => {
+    const list = [
+      { value: 'all', text: 'All' },
+      { value: 'open', text: 'Open' }
+    ]
+
+    return Dropdown({
+      size: 'small',
+      label: 'Filter',
+      inputId: 'demo-simple-select-label',
+      labelId: 'demo-select-small',
+      selectId: 'demo-select-small',
+      selectLabel: 'Filter',
+      value: filter,
+      list,
+      minWidth: 90,
+      onChange: (e) => setFilter(e.target.value)
+    })
+  }
+
+  const sortDropDown = () => {
+    const list = [
+      { value: 'touchasc', text: 'Touched ascending' },
+      { value: 'touchdesc', text: 'Touched descending' },
+      { value: 'createasc', text: 'Created ascending' },
+      { value: 'createdesc', text: 'Created descending' }
+    ]
+
+    return Dropdown({
+      size: 'small',
+      label: 'Sort',
+      inputId: 'demo-simple-select-label',
+      labelId: 'demo-select-small',
+      selectId: 'demo-select-small',
+      selectLabel: 'Age',
+      value: sort,
+      list,
+      minWidth: 150,
+      onChange: (e) => sortHandler(e.target.value)
+    })
+  }
+
   return (
     <div>
       <div className="filters">
-        <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
-          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
-          <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            value={filter}
-            label="Filter"
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <MenuItem value={'all'}>All</MenuItem>
-            <MenuItem value={'open'}>Open</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-          <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            value={sort}
-            label="Age"
-            onChange={(e) => sortHandler(e.target.value)}
-          >
-            <MenuItem value={'touchasc'}>Touched ascending</MenuItem>
-            <MenuItem value={'touchdesc'}>Touched descending</MenuItem>
-            <MenuItem value={'createasc'}>Created ascending</MenuItem>
-            <MenuItem value={'createdesc'}>Created descending</MenuItem>
-          </Select>
-        </FormControl>
+        {filterDropDown()}
+        {sortDropDown()}
       </div>
 
       <div className="container">
         <div className="card__container">
+          <Button onClick={createTicket} className="create-button">
+            create ticket
+          </Button>
           {tickets
             ? Object.keys(tickets).map((el, index) => {
-                const {
-                  issue,
-                  created,
-                  creator,
-                  severityhigh,
-                  functional,
-                  fixed,
-                  touched,
-                  toucher
-                } = tickets[el]
+                const { issue, created, creator, severityhigh } = tickets[el]
+                const { functional, fixed, touched, toucher } = tickets[el]
 
                 return filter !== 'open' || !fixed ? (
                   <div key={index} className="card">
