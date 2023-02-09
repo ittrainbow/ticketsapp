@@ -10,6 +10,10 @@
     max-width: 400px;
   }
 
+  &__creator {
+    max-width: 150px;
+  }
+
   &__container {
     display: grid;
     gap: 10px;

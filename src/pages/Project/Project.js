@@ -22,7 +22,7 @@ import { db, auth } from '../../db'
 import { Context } from '../../App'
 import { setLoading } from '../../redux/actions'
 import { Dropdown, ticketModal } from '../../UI'
-import { getNewTicketId } from '../../helpers/ticketHelper'
+import { getNewTicketIdHelper, sortTicketsHelper } from '../../helpers'
 
 export const Project = () => {
   const navigate = useNavigate()
@@ -33,6 +33,7 @@ export const Project = () => {
   const { project } = appContext
 
   const [tickets, setTickets] = useState()
+  const [queue, setQueue] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [tempTicket, setTempTicket] = useState()
   const [filter, setFilter] = useState('all')
@@ -43,49 +44,35 @@ export const Project = () => {
     fetch() // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    if (tickets) sortTickets(sort) // eslint-disable-next-line
+  }, [tickets])
+
   const createTicket = () => {
     const date = new Date().getTime()
 
     setTempTicket({
-      id: getNewTicketId(tickets),
+      id: getNewTicketIdHelper(tickets),
       created: date,
-      creator: uid,
       touched: date,
+      creator: uid,
       toucher: uid,
       fixed: false,
       functional: false,
-      issue: '',
       severityhigh: false,
+      issue: '',
       solution: ''
     })
 
     setModalOpen(true)
   }
 
-  const sortTickets = (input, style) => {
-    setSort(style)
-    const sorted = {}
-
-    Object.keys(input)
-      .sort((a, b) => {
-        switch (style) {
-          case 'touchasc':
-            return input[a].touched - input[b].touched
-          case 'touchdesc':
-            return input[b].touched - input[a].touched
-          case 'createasc':
-            return input[a].created - input[b].created
-          case 'createdesc':
-            return input[b].created - input[a].created
-          default:
-            return 0
-        }
-      })
-      .forEach((el, index) => {
-        sorted[index] = input[el]
-      })
-
-    setTickets(sorted)
+  const sortTickets = (style) => {
+    if (tickets) {
+      const resp = sortTicketsHelper(tickets, style)
+      const array = Object.keys(resp).map((el) => resp[el])
+      setQueue(array)
+    }
   }
 
   const fetch = async () => {
@@ -94,22 +81,27 @@ export const Project = () => {
       await getDocs(collection(db, 'projects', link, 'issues')).then((response) => {
         const object = {}
         response.forEach((el) => (object[el.id] = el.data()))
-        sortTickets(object, 'touchdesc')
+        setTickets(object, 'touchdesc')
       })
     } catch (error) {
       console.error(error)
+    } finally {
+      sortTickets()
     }
   }
 
-  const isotime = (timestamp) => moment(timestamp).format().substring(0, 16).replace(/T/g, ' ')
+  const isotime = (timestamp) => {
+    return moment(timestamp).format().substring(0, 16).replace(/T/g, ' ')
+  }
 
   const submitHandler = async () => {
-    dispatch(setLoading(true))
     try {
+      dispatch(setLoading(true))
       const data = { ...tempTicket, toucher: uid, touched: new Date().getTime() }
       delete data['id']
       setTickets({ ...tickets, id: tempTicket })
-      await setDoc(doc(db, 'projects', project, 'issues', tempTicket.id), data)
+      const { id } = tempTicket
+      await setDoc(doc(db, 'projects', project, 'issues', id), data)
     } catch (error) {
       console.error(error)
     } finally {
@@ -118,7 +110,6 @@ export const Project = () => {
   }
 
   const openModalHandler = (value, el) => {
-    value['id'] = el
     setTempTicket(value)
     setModalOpen(true)
   }
@@ -134,7 +125,8 @@ export const Project = () => {
   }
 
   const sortHandler = (style) => {
-    sortTickets(tickets, style)
+    setSort(style)
+    return sortTickets(style)
   }
 
   const filterDropDown = () => {
@@ -147,9 +139,6 @@ export const Project = () => {
       size: 'small',
       label: 'Filter',
       inputId: 'demo-simple-select-label',
-      labelId: 'demo-select-small',
-      selectId: 'demo-select-small',
-      selectLabel: 'Filter',
       value: filter,
       list,
       minWidth: 90,
@@ -169,8 +158,6 @@ export const Project = () => {
       size: 'small',
       label: 'Sort',
       inputId: 'demo-simple-select-label',
-      labelId: 'demo-select-small',
-      selectId: 'demo-select-small',
       selectLabel: 'Age',
       value: sort,
       list,
@@ -188,13 +175,24 @@ export const Project = () => {
 
       <div className="container">
         <div className="card__container">
-          <Button onClick={createTicket} className="create-button">
-            create ticket
-          </Button>
+          <div className="card__creator">
+            <Button onClick={createTicket} className="create-button">
+              Create ticket
+            </Button>
+          </div>
           {tickets
-            ? Object.keys(tickets).map((el, index) => {
-                const { issue, created, creator, severityhigh } = tickets[el]
-                const { functional, fixed, touched, toucher } = tickets[el]
+            ? queue.map((el, index) => {
+                const {
+                  issue,
+                  created,
+                  creator,
+                  severityhigh,
+                  id,
+                  functional,
+                  fixed,
+                  touched,
+                  toucher
+                } = el
 
                 return filter !== 'open' || !fixed ? (
                   <div key={index} className="card">
@@ -222,7 +220,7 @@ export const Project = () => {
                         </div>
                       </div>
                       <Button
-                        onClick={() => openModalHandler(tickets[el], el)}
+                        onClick={() => openModalHandler(tickets[id])}
                         className="card__button"
                       >
                         View ticket
