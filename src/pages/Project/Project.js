@@ -16,6 +16,7 @@ import moment from 'moment/moment'
 
 import './Project.scss'
 import '../../styles/cards.scss'
+import '../../styles/filters.scss'
 
 import { db, auth } from '../../db'
 import { Context } from '../../App'
@@ -26,7 +27,6 @@ export const Project = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { uid } = user
   const { appContext, usersContext } = useContext(Context)
   const { project } = appContext
 
@@ -37,7 +37,7 @@ export const Project = () => {
   const [sort, setSort] = useState('touchdesc')
 
   useEffect(() => {
-    if (!project) navigate('/list')
+    if (!project) navigate('/')
     fetch() // eslint-disable-next-line
   }, [])
 
@@ -56,8 +56,8 @@ export const Project = () => {
             return input[a].created - input[b].created
           case 'createdesc':
             return input[b].created - input[a].created
-          default: // eslint-disable-next-line
-            return
+          default:
+            return 0
         }
       })
       .forEach((el, index) => {
@@ -84,11 +84,11 @@ export const Project = () => {
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
-    const data = { ...tempTicket, toucher: uid, touched: new Date().getTime() }
-    delete data['id']
     try {
-      await setDoc(doc(db, 'projects', project, 'issuopenes', tempTicket.id), data)
+      const data = { ...tempTicket, toucher: user.uid, touched: new Date().getTime() }
+      delete data['id']
       setTickets({ ...tickets, id: tempTicket })
+      await setDoc(doc(db, 'projects', project, 'issues', tempTicket.id), data)
     } catch (error) {
       console.error(error)
     } finally {
@@ -118,7 +118,7 @@ export const Project = () => {
 
   return (
     <div>
-      <div className="project-filters">
+      <div className="filters">
         <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
           <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select

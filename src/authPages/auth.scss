@@ -22,6 +22,9 @@
 .text-container {
   text-align: center;
   padding: 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .profile-container > * {

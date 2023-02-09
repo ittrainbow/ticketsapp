@@ -2,7 +2,7 @@
 
 .header {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   background-color: black;
   transition: 0.2s;
   width: calc(100% + 40px);
@@ -22,7 +22,7 @@
   }
 
   &__icon {
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     color: #f6f7f9;
     font-size: 35px;

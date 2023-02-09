@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Button, Input } from '@mui/material'
 
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
@@ -45,33 +46,33 @@ export const Register = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <input
+        <Input
           type='text'
           value={name}
           onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
           placeholder='Name'
         />
-        <input
+        <Input
           type='email'
           value={email}
           onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
           placeholder='E-mail'
         />
-        <input
+        <Input
           type='password'
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder='Password'
         />
-        <button className="login" onClick={register}>
-          Sign Up
-        </button>
-        <button className="google" onClick={signInWithGoogle}>
+        <Button className="login" onClick={register}>
+          Sign Up New User
+        </Button>
+        <Button className="google" onClick={signInWithGoogle}>
           Google Sign Up
-        </button>
-        <div className="link-container">
-          Got account? <Link to="/login">Sign In</Link>
-        </div>
+        </Button>
+        <Button className="link-container" onClick={() => navigate('/login')}>
+          Log In
+        </Button>
       </div>
     </div>
   )

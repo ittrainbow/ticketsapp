@@ -100,6 +100,9 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
           <Button className="modal__buttons__btn" onClick={closeModalHandler}>
             Discard
           </Button>
+          <Button className="modal__buttons__btn" onClick={() => console.log(tempTicket)}>
+            Log
+          </Button>
         </div>
       </Box>
     </Modal>
