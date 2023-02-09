@@ -11,10 +11,11 @@ import {
   MdOutlineCheckBox,
   MdOutlineDoubleArrow
 } from 'react-icons/md'
-import { Button } from '@mui/material'
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import moment from 'moment/moment'
 
 import './Project.scss'
+import '../../styles/cards.scss'
 
 import { db, auth } from '../../db'
 import { Context } from '../../App'
@@ -22,34 +23,60 @@ import { setLoading } from '../../redux/actions'
 import { ticketModal } from '../../UI'
 
 export const Project = () => {
-  const [user] = useAuthState(auth)
-  const { uid } = user
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
+  const { uid } = user
   const { appContext, usersContext } = useContext(Context)
   const { project } = appContext
-  const [tickets, setTickets] = useState(null)
-  const [open, setOpen] = useState(false)
+
+  const [tickets, setTickets] = useState()
+  const [modalOpen, setModalOpen] = useState(false)
   const [tempTicket, setTempTicket] = useState()
+  const [filter, setFilter] = useState('all')
+  const [sort, setSort] = useState('touchdesc')
 
   useEffect(() => {
     if (!project) navigate('/list')
     fetch() // eslint-disable-next-line
   }, [])
 
+  const sortTickets = (input, style) => {
+    setSort(style)
+    const sorted = {}
+
+    Object.keys(input)
+      .sort((a, b) => {
+        switch (style) {
+          case 'touchasc':
+            return input[a].touched - input[b].touched
+          case 'touchdesc':
+            return input[b].touched - input[a].touched
+          case 'createasc':
+            return input[a].created - input[b].created
+          case 'createdesc':
+            return input[b].created - input[a].created
+          default: // eslint-disable-next-line
+            return
+        }
+      })
+      .forEach((el, index) => {
+        sorted[index] = input[el]
+      })
+
+    setTickets(sorted)
+  }
+
   const fetch = async () => {
-    if (project) {
-      try {
-        await getDocs(collection(db, 'projects', project, 'issues')).then((response) => {
-          const obj = {}
-          response.forEach((el) => {
-            obj[el.id] = el.data()
-          })
-          setTickets(obj)
-        })
-      } catch (error) {
-        console.error(error)
-      }
+    const link = project ? project : window.location.pathname.split('/').slice(-1).toString()
+    try {
+      await getDocs(collection(db, 'projects', link, 'issues')).then((response) => {
+        const object = {}
+        response.forEach((el) => (object[el.id] = el.data()))
+        sortTickets(object, 'touchdesc')
+      })
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -57,10 +84,10 @@ export const Project = () => {
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
-    const data = { ...tempTicket, lasttoucher: uid, lasttouched: new Date().getTime() }
+    const data = { ...tempTicket, toucher: uid, touched: new Date().getTime() }
     delete data['id']
     try {
-      await setDoc(doc(db, 'projects', project, 'issues', tempTicket.id), data)
+      await setDoc(doc(db, 'projects', project, 'issuopenes', tempTicket.id), data)
       setTickets({ ...tickets, id: tempTicket })
     } catch (error) {
       console.error(error)
@@ -72,69 +99,109 @@ export const Project = () => {
   const openModalHandler = (value, el) => {
     value['id'] = el
     setTempTicket(value)
-    setOpen(true)
+    setModalOpen(true)
   }
 
   const closeModalHandler = () => {
-    setOpen(false)
-  }
-
-  const showTempTicket = () => {
-    console.log('tempTicket', tempTicket)
-    console.log('open', open)
+    setModalOpen(false)
   }
 
   const drawModal = () => {
-    return open
-      ? ticketModal(
-          tempTicket,
-          open,
-          closeModalHandler,
-          setTempTicket,
-          submitHandler,
-          showTempTicket
-        )
+    return modalOpen
+      ? ticketModal(tempTicket, modalOpen, closeModalHandler, setTempTicket, submitHandler)
       : null
   }
 
-  return (
-    <div className="container">
-      <div className="card__container">
-        {tickets
-          ? Object.keys(tickets).map((el, index) => {
-              const { issue, created, creator, severityhigh } = tickets[el]
-              const { functional, fixed, lasttouched, lasttoucher } = tickets[el]
+  const sortHandler = (style) => {
+    sortTickets(tickets, style)
+  }
 
-              return (
-                <div key={index} className="card">
-                  <div className="card__body">
-                    <div className="card__header">
-                      {issue.substring(0, 80) + (issue.length > 80 ? '{...}' : '')}
-                    </div>
-                    <div className="card__icons">
-                      <div className="card__icons__left">
-                        {fixed ? (
-                          <MdOutlineCheckBox className="green" />
-                        ) : (
-                          <MdOutlineDoubleArrow className="red" />
-                        )}
+  return (
+    <div>
+      <div className="project-filters">
+        <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={filter}
+            label="Filter"
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <MenuItem value={'all'}>All</MenuItem>
+            <MenuItem value={'open'}>Open</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={sort}
+            label="Age"
+            onChange={(e) => sortHandler(e.target.value)}
+          >
+            <MenuItem value={'touchasc'}>Touched ascending</MenuItem>
+            <MenuItem value={'touchdesc'}>Touched descending</MenuItem>
+            <MenuItem value={'createasc'}>Created ascending</MenuItem>
+            <MenuItem value={'createdesc'}>Created descending</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className="container">
+        <div className="card__container">
+          {tickets
+            ? Object.keys(tickets).map((el, index) => {
+                const {
+                  issue,
+                  created,
+                  creator,
+                  severityhigh,
+                  functional,
+                  fixed,
+                  touched,
+                  toucher
+                } = tickets[el]
+
+                return filter !== 'open' || !fixed ? (
+                  <div key={index} className="card">
+                    <div className="card__body">
+                      <div className="card__issue">
+                        {issue.substring(0, 80) + (issue.length > 80 ? '{...}' : '')}
                       </div>
-                      <div>{severityhigh ? <MdNewReleases /> : <MdAccessTimeFilled />}</div>
-                      <div>{functional ? <MdSettingsApplications /> : <MdSmartphone />}</div>
+                      <div className="card__icons">
+                        <div className="card__icons__left">
+                          {fixed ? (
+                            <MdOutlineCheckBox className="green" />
+                          ) : (
+                            <MdOutlineDoubleArrow className="red" />
+                          )}
+                        </div>
+                        <div>{severityhigh ? <MdNewReleases /> : <MdAccessTimeFilled />}</div>
+                        <div>{functional ? <MdSettingsApplications /> : <MdSmartphone />}</div>
+                      </div>
+                      <div className="card__time">
+                        <div>
+                          Created {isotime(created)} ({usersContext[creator].name})
+                        </div>
+                        <div>
+                          Touched {isotime(touched)} ({usersContext[toucher].name})
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => openModalHandler(tickets[el], el)}
+                        className="card__button"
+                      >
+                        View ticket
+                      </Button>
+                      {drawModal()}
                     </div>
-                    <div className="card__time">
-                      Created {isotime(created)} ({usersContext[creator].name})
-                    </div>
-                    <div className="card__time">
-                      Touched {isotime(lasttouched)} ({usersContext[lasttoucher].name})
-                    </div>
-                    <Button onClick={() => openModalHandler(tickets[el], el)}>View ticket</Button>
-                    {drawModal()}
                   </div>
-                </div>
-              )
-            })
-          : null}
+                ) : null
+              })
+            : null}
+        </div>
       </div>
     </div>
   )

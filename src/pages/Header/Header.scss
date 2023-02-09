@@ -1,71 +1,37 @@
 @import '../../styles/vars';
 
-.header-bg {
+.header {
   position: fixed;
   z-index: 1;
-  opacity: .75;
   background-color: black;
   transition: 0.2s;
+  width: calc(100% + 40px);
+  height: 68px;
+  top: -20px;
+  left: calc(15px - 100%);
+  border-radius: 20px;
+
+  @media only screen and (max-width: 500px) {
+    top: -20px;
+    height: 80px;
+    left: calc(25px - 100%);
+  }
 
   &__show {
-    height: 250px;
-    width: 250px;
-    top: -125px;
-    left: -125px;
-    border-radius: 125px;
+    left: -20px;
   }
 
-  &__hide {
-    height: 110px;
-    width: 110px;
-    top: -55px;
-    left: -55px;
-    border-radius: 55px;
-  }
-}
+  &__icon {
+    z-index: 1;
+    position: absolute;
+    color: #f6f7f9;
+    font-size: 35px;
+    padding: 3px;
+    cursor: pointer;
 
-.icon {
-  position: absolute;
-  font-size: 30px;
-  cursor: pointer;
-  color: $base-white;
-
-  &__toggler {
-    transition: 0.2s;
-
-    &__closed {
-      top: 60px;
-      left: 60px;
-    }
-
-    &__open {
-      top: 130px;
-      left: 130px;
+    @media only screen and (max-width: 500px) {
+      padding-top: 9px;
+      font-size: 40px;
     }
   }
-
-  &__profile {
-    top: 130px;
-    left: 205px;
-  }
-
-  &__new-app {
-    top: 165px;
-    left: 190px;
-  }
-
-  &__list {
-    top: 190px;
-    left: 165px;
-  }
-
-  &__logout {
-    top: 205px;
-    left: 135px;
-  }
-}
-
-.toggler-icon {
-  font-size: 30px;
-  font-weight: 800;
 }

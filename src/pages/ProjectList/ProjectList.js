@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 import './ProjectList.scss'
 
@@ -23,11 +24,13 @@ export const ProjectList = () => {
               return (
                 <div key={index} className="card">
                   <div className="card__body">
-                    <h3>{el}</h3>
-                    <p>{description}</p>
-                    <button onClick={() => onClickHandler(el)} className="card__button">
-                      See App
-                    </button>
+                    <div className="card__header">{el}</div>
+                    <div className="card__description">{description}</div>
+                    <div className="card__icons">
+                      <Button onClick={() => onClickHandler(el)} className="card__button">
+                        See App
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )

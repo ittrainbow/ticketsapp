@@ -1,69 +1,17 @@
-.modal {
+.project-filters {
   display: flex;
-  height: 360px;
-  flex-direction: column;
-  background: black;
+  flex-direction: row;
+  height: 48px;
+  padding-left: 60px;
+  width: calc(100% - 75px);
+  max-width: 400px;
   gap: 5px;
 
-  &__issue {
-    flex-grow: 0.6;
-  }
-
-  &__solution {
-    flex-grow: 0.3;
-  }
-
-  &__icons {
-    display: flex;
-    transition: all 1s ease-in-out;
-    cursor: pointer;
-
-    &__text,
-    &__inner {
-      flex: 1;
-    }
-
-    &__text {
-      padding-top: 10px;
-      font-size: 13px;
-    }
-
-    &__inner {
-      font-size: 30px;
-    }
-  }
-
-  &__issue,
-  &__icons,
-  &__solution {
-    &__textbox {
-      height: 100%;
-    }
-  }
-
-  &__buttons {
-    display: flex;
-    flex-grow: 0.1;
-    gap: 5px;
-
-    &__btn {
-      background-color: azure;
-      border: 2px solid lightskyblue;
-      min-height: 35px !important;
-      max-height: 40px;
-    }
-  }
-}
-
-.modal-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 300px;
-  bottom: 20px;
-
-  &__issue {
-    flex-grow: 1;
+  @media only screen and (max-width: 500px) {
+    height: 60px;
+    padding-left: 75px;
+    padding-top: 6px;
+    max-width: calc(100% - 90px);
   }
 }
 
@@ -81,8 +29,4 @@
 
 .blue {
   color: cornflowerblue;
-}
-
-.absolute {
-  position: absolute;
 }

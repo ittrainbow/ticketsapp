@@ -1,0 +1,58 @@
+.modal {
+  display: flex;
+  height: 360px;
+  flex-direction: column;
+  background: black;
+  gap: 5px;
+
+  &__issue {
+    flex-grow: 0.5;
+  }
+
+  &__solution {
+    flex-grow: 0.25;
+  }
+
+  &__icons {
+    display: flex;
+    flex-grow: 0.125;
+    transition: all 1s ease-in-out;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+
+    &__text,
+    &__inner {
+      flex: 1;
+    }
+
+    &__text {
+      font-size: 13px;
+    }
+
+    &__inner {
+      font-size: 30px;
+    }
+  }
+
+  &__issue,
+  &__icons,
+  &__solution {
+    &__textbox {
+      height: 100%;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-grow: 0.125;
+    gap: 5px;
+
+    &__btn {
+      padding: 0 !important;
+      background-color: azure;
+      border: 2px solid lightskyblue;
+      max-height: 40px;
+    }
+  }
+}
