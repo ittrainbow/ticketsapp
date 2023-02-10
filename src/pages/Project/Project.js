@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, setDoc, query } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -84,7 +84,7 @@ export const Project = () => {
   const fetch = async () => {
     const link = project ? project : window.location.pathname.split('/').slice(-1).toString()
     try {
-      await getDocs(collection(db, 'projects', link, 'issues')).then((response) => {
+      await getDocs(query(collection(db, 'projects', link, 'issues'))).then((response) => {
         const object = {}
         response.forEach((el) => (object[el.id] = el.data()))
         setTickets(object, 'touchdesc')
