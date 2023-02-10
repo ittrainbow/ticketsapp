@@ -1,2 +1,2 @@
 export * from './sortTicketsHelper'
-export * from './getNewTicketIdHelper'
+export * from './getNewTicketHelper'

@@ -19,14 +19,11 @@
   }
 }
 
-.create-button {
-  display: flex;
-  height: 100%;
+.creator {
   width: 50%;
-  justify-content: center;
+  align-items: center;
 
   @media only screen and (max-width: 500px) {
-    height: 50%;
     width: 100%;
   }
 }
@@ -49,10 +46,4 @@
 
 .blue {
   color: cornflowerblue;
-}
-
-.icon {
-  font-size: 36px;
-  margin-left: -2px;
-  padding-right: 10px;
 }

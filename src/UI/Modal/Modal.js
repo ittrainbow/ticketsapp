@@ -36,7 +36,7 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       inputId: 'demo-simple-select-label',
       value: severity,
       list,
-      minWidth: 85,
+      width: 80,
       onChange: (e) => setTempTicket({ ...tempTicket, severity: e.target.value})
     })
   }
@@ -53,7 +53,7 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       inputId: 'demo-simple-select-label',
       value: problem,
       list,
-      minWidth: 100,
+      width: 100,
       onChange: (e) => setTempTicket({ ...tempTicket, problem: e.target.value})
     })
   }
@@ -71,10 +71,12 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       inputId: 'demo-simple-select-label',
       value: status,
       list,
-      minWidth: 85,
+      width: 90,
       onChange: (e) => setTempTicket({ ...tempTicket, status: e.target.value})
     })
   }
+
+  // const disabled = 
 
   return (
     <Modal open={open} onClose={closeModalHandler}>
@@ -105,15 +107,15 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
           {statusDropDown()}
         </div>
         <div className="modal__buttons">
-          <Button className="modal__buttons__btn" onClick={submitHandler}>
+          <Button className="modal__buttons__btn" disabled={!status || !problem || !severity || !issue || !solution} onClick={submitHandler}>
             Submit
           </Button>
           <Button className="modal__buttons__btn" onClick={closeModalHandler}>
             Discard
           </Button>
-          <Button className="modal__buttons__btn" onClick={() => console.log(tempTicket)}>
+          {/* <Button className="modal__buttons__btn" onClick={() => console.log(tempTicket)}>
             Log
-          </Button>
+          </Button> */}
         </div>
       </Box>
     </Modal>

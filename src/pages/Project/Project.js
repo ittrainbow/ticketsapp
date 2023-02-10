@@ -15,7 +15,7 @@ import { db, auth } from '../../db'
 import { Context } from '../../App'
 import { setLoading } from '../../redux/actions'
 import { Dropdown, ticketModal } from '../../UI'
-import { getNewTicketIdHelper, sortTicketsHelper } from '../../helpers'
+import { getNewTicketHelper, sortTicketsHelper } from '../../helpers'
 
 export const Project = () => {
   const navigate = useNavigate()
@@ -43,12 +43,10 @@ export const Project = () => {
 
   const iconSeverity = (severity, status) => {
     return status === 'done' ? (
-      <MdOutlineCheckBox className="icon grey" />
+      <MdOutlineCheckBox className="grey" />
     ) : (
       <MdNewReleases
-        className={
-          'icon ' + (severity === 'high' ? 'red' : severity === 'avg' ? 'orange' : 'yellow')
-        }
+        className={severity === 'high' ? 'red' : severity === 'avg' ? 'orange' : 'yellow'}
       />
     )
   }
@@ -57,7 +55,8 @@ export const Project = () => {
     const date = new Date().getTime()
 
     setTempTicket({
-      id: getNewTicketIdHelper(tickets),
+      id: getNewTicketHelper(tickets, 'id'),
+      number: getNewTicketHelper(tickets, 'number'),
       created: date,
       touched: date,
       creator: uid,
@@ -146,7 +145,7 @@ export const Project = () => {
       inputId: 'demo-simple-select-label',
       value: filter,
       list,
-      minWidth: 90,
+      maxWidth: 170,
       onChange: (e) => setFilter(e.target.value)
     })
   }
@@ -166,20 +165,20 @@ export const Project = () => {
       selectLabel: 'Age',
       value: sort,
       list,
-      minWidth: 150,
+      maxWidth: 170,
       onChange: (e) => sortHandler(e.target.value)
     })
   }
 
   return (
-    <div>
+    <>
       <div className="filters">
         {filterDropDown()}
         {sortDropDown()}
       </div>
 
       <div className="container">
-        <div className="card__creator">
+        <div className="creator">
           <Button onClick={createTicket}>Create ticket</Button>{' '}
         </div>
         <div className="card__parent">
@@ -187,6 +186,7 @@ export const Project = () => {
             {tickets
               ? queue.map((el, index) => {
                   const {
+                    number,
                     issue,
                     created,
                     creator,
@@ -201,12 +201,13 @@ export const Project = () => {
                   return filter !== 'open' || status !== 'done' ? (
                     <div key={index} className="card">
                       <div className="card__body">
+                        <div className="card__header">Ticket #{number}</div>
                         <div className="card__issue">
-                          {issue.substring(0, 80) + (issue.length > 80 ? '{...}' : '')}
+                          {issue.length > 70 ? issue.substring(0, 70) + '{...}' : issue}
                         </div>
                         <div className="card__desc">
-                          <div>{iconSeverity(severity, status)}</div>
-                          <div>
+                          <div className="card__desc__icon">{iconSeverity(severity, status)}</div>
+                          <div className="card__desc__status">
                             <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
                             <div>
                               Status:{' '}
@@ -237,6 +238,6 @@ export const Project = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
