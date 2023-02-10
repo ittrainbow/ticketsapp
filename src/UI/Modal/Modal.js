@@ -110,7 +110,7 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
         <div className="modal__buttons">
           <Button
             className="modal__buttons__btn"
-            disabled={!status || !problem || !severity || !issue || !solution}
+            disabled={!status || !problem || !severity || !issue}
             onClick={submitHandler}
           >
             Submit

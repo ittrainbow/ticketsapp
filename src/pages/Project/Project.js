@@ -54,10 +54,11 @@ export const Project = () => {
 
   const createTicket = () => {
     const date = new Date().getTime()
+    const { id, number } = getNewTicketHelper(tickets)
 
     setTempTicket({
-      id: getNewTicketHelper(tickets, 'id'),
-      number: getNewTicketHelper(tickets, 'number'),
+      id,
+      number,
       created: date,
       touched: date,
       creator: uid,
@@ -106,7 +107,7 @@ export const Project = () => {
       delete data['id']
       setTickets({ ...tickets, id: tempTicket })
       const { id } = tempTicket
-      await setDoc(doc(db, 'projects', project, 'issues', id), data)
+      await setDoc(doc(db, 'projects', project, 'issues', id.toString()), data)
     } catch (error) {
       console.error(error)
     } finally {
@@ -231,12 +232,12 @@ export const Project = () => {
                       >
                         View ticket
                       </Button>
-                      {drawModal()}
                     </div>
                   </div>
                 ) : null
               })
             : null}
+          {drawModal()}
         </div>
       </div>
     </>
