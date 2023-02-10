@@ -1,0 +1,37 @@
+@import '../../styles/vars';
+
+.header {
+  position: fixed;
+  z-index: 2;
+  background-color: black;
+  transition: 0.2s;
+  width: calc(100% + 40px);
+  height: 68px;
+  top: -20px;
+  left: calc(15px - 100%);
+  border-radius: 20px;
+
+  @media only screen and (max-width: 500px) {
+    top: -20px;
+    height: 80px;
+    left: calc(18px - 100%);
+  }
+
+  &__show {
+    left: -20px;
+  }
+
+  &__icon {
+    z-index: 2;
+    position: fixed;
+    color: #f6f7f9;
+    font-size: 35px;
+    padding: 0.075em;
+    cursor: pointer;
+
+    @media only screen and (max-width: 500px) {
+      padding-top: 9px;
+      font-size: 40px;
+    }
+  }
+}

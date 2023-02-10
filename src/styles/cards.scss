@@ -1,0 +1,89 @@
+.card-container {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card {
+  transition: all 0.15s ease-in-out;
+  border-radius: 10px;
+  position: relative;
+  background-color: white;
+  max-width: 300px;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #f7f7f7;
+  }
+
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &__body {
+    border: 2px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 3px;
+    border-radius: 10px;
+    min-height: 140px;
+    height: calc(100% - 30px);
+  }
+
+  &__header {
+    font-weight: 700;
+    flex-grow: 0.1;
+  }
+
+  &__issue {
+    flex-grow: 1;
+    min-height: 65px;
+
+    @media only screen and (max-width: 500px) {
+      min-height: 45px;
+    }
+  }
+
+  &__desc {
+    flex-grow: 0.25;
+    display: flex;
+    padding: 5px 0;
+    font-size: 12px;
+    font-weight: 600;
+
+    @media only screen and (max-width: 500px) {
+      height: 45px;
+    }
+
+    &__icon {
+      font-size: 36px;
+      margin-left: -2px;
+      padding-right: 10px;
+      height: 30px;
+    }
+  
+    &__status {
+      padding-top: 4px;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__timestamps {
+    display: flex;
+    font-size: 12px;
+
+    &__left {
+      width: 50px;
+    }
+  }
+
+  &__button {
+    flex-grow: 0.25;
+    padding: 0 !important;
+  }
+}
