@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
@@ -16,11 +16,15 @@ export const ProjectList = () => {
     navigate(`/project/${project}`)
   }
 
+  useEffect(() => {
+    setAppContext({ ...appContext, headerOpen: true }) // eslint-disable-next-line
+  }, [])
+
   return (
     <div>
       <div className="filters"></div>
 
-      <div className="container">
+      <div className="container padding">
         <div className="card__container">
           {projectsContext
             ? Object.keys(projectsContext).map((el, index) => {
@@ -29,12 +33,10 @@ export const ProjectList = () => {
                   <div key={index} className="card">
                     <div className="card__body">
                       <div className="card__header">{el}</div>
-                      <div className="card__description">{description}</div>
-                      <div className="card__icons">
-                        <Button onClick={() => onClickHandler(el)} className="card__button">
-                          See App
-                        </Button>
-                      </div>
+                      <div className="card__issue">{description}</div>
+                      <Button onClick={() => onClickHandler(el)} className="card__button">
+                        See App
+                      </Button>
                     </div>
                   </div>
                 )

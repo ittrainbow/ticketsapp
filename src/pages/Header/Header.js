@@ -1,31 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   MdHighlightOff,
   MdOpenWith,
   MdLogout,
   MdAccountCircle,
-  MdLibraryAdd,
-  MdViewList
+  // MdLibraryAdd,
+  MdFormatListNumbered
 } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
-import { auth, logout } from '../../db'
-
 import './Header.scss'
 
+import { auth, logout } from '../../db'
+import { Context } from '../../App'
+
 export const Header = () => {
+  const { appContext, setAppContext } = useContext(Context)
+  const { headerOpen } = appContext
   const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
   const [user] = useAuthState(auth)
 
   const onClickHandler = ({ id }, authRequired) => {
     if (user || !authRequired) {
-      setOpen(false)
+      setAppContext({ ...appContext, headerOpen: false})
 
       switch (id) {
         case 'toggler':
-          setOpen(!open)
+          if (!headerOpen) setAppContext({ ...appContext, headerOpen: true})
           return
         case 'dashboard':
           user ? navigate('/dashboard') : navigate('/login')
@@ -46,21 +48,21 @@ export const Header = () => {
   }
 
   const icons = [
-    { id: 'toggler', icon: open ? <MdHighlightOff /> : <MdOpenWith /> },
-    { id: 'dashboard', icon: open ? <MdAccountCircle /> : null }
+    { id: 'toggler', icon: headerOpen ? <MdHighlightOff /> : <MdOpenWith /> },
+    { id: 'dashboard', icon: headerOpen ? <MdAccountCircle /> : null }
   ]
 
   const iconsAuth = [
-    { id: 'new', icon: open ? <MdLibraryAdd /> : null },
-    { id: 'list', icon: open ? <MdViewList /> : null },
-    { id: 'logout', icon: open ? <MdLogout /> : null }
+    // { id: 'new', icon: headerOpen ? <MdLibraryAdd /> : null },
+    { id: 'list', icon: headerOpen ? <MdFormatListNumbered /> : null },
+    { id: 'logout', icon: headerOpen ? <MdLogout /> : null }
   ]
 
   const array = user ? icons.concat(iconsAuth) : icons
 
   return (
     <div>
-      <div className={open ? 'header header__show' : 'header'}></div>
+      <div className={headerOpen ? 'header header__show' : 'header'}></div>
       <div>
         {array.map((el, index) => {
           const { id, icon } = el

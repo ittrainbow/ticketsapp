@@ -81,7 +81,12 @@
   }
 
   &__timestamps {
+    display: flex;
     font-size: 12px;
+
+    &__left {
+      width: 50px;
+    }
   }
 
   &__button {

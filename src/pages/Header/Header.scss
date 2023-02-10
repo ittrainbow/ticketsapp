@@ -14,7 +14,7 @@
   @media only screen and (max-width: 500px) {
     top: -20px;
     height: 80px;
-    left: calc(25px - 100%);
+    left: calc(18px - 100%);
   }
 
   &__show {
@@ -26,7 +26,7 @@
     position: fixed;
     color: #f6f7f9;
     font-size: 35px;
-    padding: 3px;
+    padding: 0.075em;
     cursor: pointer;
 
     @media only screen and (max-width: 500px) {

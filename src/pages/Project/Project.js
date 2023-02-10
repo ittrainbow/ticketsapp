@@ -215,14 +215,18 @@ export const Project = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="card__timestamps">
-                          <div>
-                            Created: {isotime(created)} by {usersContext[creator].name}
-                          </div>
-                          <div>
-                            Touched: {isotime(touched)} by {usersContext[toucher].name}
-                          </div>
+                      <div className="card__timestamps">
+                        <div className="card__timestamps__left">Created:</div>
+                        <div>
+                          {isotime(created)} by {usersContext[creator].name}
                         </div>
+                      </div>
+                      <div className="card__timestamps">
+                        <div className="card__timestamps__left">Edited:</div>{' '}
+                        <div>
+                          {isotime(touched)} by {usersContext[toucher].name}
+                        </div>
+                      </div>
                         <Button
                           onClick={() => openModalHandler(tickets[id])}
                           className="card__button"

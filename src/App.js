@@ -9,7 +9,7 @@ export const Context = React.createContext()
 
 const App = () => {
   const [projectsContext, setProjectsContext] = useState()
-  const [appContext, setAppContext] = useState({ project: null })
+  const [appContext, setAppContext] = useState({ project: null, headerOpen: true })
   const [usersContext, setUsersContext] = useState({})
 
   return (

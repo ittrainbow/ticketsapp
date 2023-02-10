@@ -8,6 +8,7 @@ import './Modal.scss'
 import { Dropdown } from '../Dropdown/Dropdown'
 
 export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, submitHandler) => {
+  // console.log(5, tempTicket)
   const { issue, solution, severity, problem, status } = tempTicket
 
   const style = {
@@ -37,7 +38,7 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       value: severity,
       list,
       width: 80,
-      onChange: (e) => setTempTicket({ ...tempTicket, severity: e.target.value})
+      onChange: (e) => setTempTicket({ ...tempTicket, severity: e.target.value })
     })
   }
 
@@ -54,7 +55,7 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       value: problem,
       list,
       width: 100,
-      onChange: (e) => setTempTicket({ ...tempTicket, problem: e.target.value})
+      onChange: (e) => setTempTicket({ ...tempTicket, problem: e.target.value })
     })
   }
 
@@ -72,11 +73,11 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
       value: status,
       list,
       width: 90,
-      onChange: (e) => setTempTicket({ ...tempTicket, status: e.target.value})
+      onChange: (e) => setTempTicket({ ...tempTicket, status: e.target.value })
     })
   }
 
-  // const disabled = 
+  // const disabled =
 
   return (
     <Modal open={open} onClose={closeModalHandler}>
@@ -107,7 +108,11 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
           {statusDropDown()}
         </div>
         <div className="modal__buttons">
-          <Button className="modal__buttons__btn" disabled={!status || !problem || !severity || !issue || !solution} onClick={submitHandler}>
+          <Button
+            className="modal__buttons__btn"
+            disabled={!status || !problem || !severity || !issue || !solution}
+            onClick={submitHandler}
+          >
             Submit
           </Button>
           <Button className="modal__buttons__btn" onClick={closeModalHandler}>
