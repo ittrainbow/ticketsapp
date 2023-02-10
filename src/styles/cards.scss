@@ -1,3 +1,11 @@
+.card-container {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
 .card {
   transition: all 0.15s ease-in-out;
   border-radius: 10px;
@@ -5,21 +13,14 @@
   background-color: white;
   max-width: 300px;
 
+  &:hover {
+    transform: scale(1.05);
+    background-color: #f7f7f7;
+  }
+
   @media only screen and (max-width: 500px) {
     width: 100%;
     max-width: 400px;
-  }
-
-  &__parent {
-    display: flex;
-  }
-
-  &__container {
-    display: grid;
-    gap: 10px;
-    width: 100%;
-    max-width: 1000px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   &__body {
@@ -31,10 +32,6 @@
     border-radius: 10px;
     min-height: 140px;
     height: calc(100% - 30px);
-
-    @media only screen and (max-width: 500px) {
-      min-height: 0;
-    }
   }
 
   &__header {
@@ -92,10 +89,5 @@
   &__button {
     flex-grow: 0.25;
     padding: 0 !important;
-  }
-
-  &:hover {
-    transform: scale(1.05);
-    background-color: #f7f7f7;
   }
 }

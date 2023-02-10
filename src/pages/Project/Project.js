@@ -22,7 +22,7 @@ export const Project = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { uid } = user
-  const { appContext, usersContext } = useContext(Context)
+  const { appContext, setAppContext, usersContext } = useContext(Context)
   const { project } = appContext
 
   const [tickets, setTickets] = useState()
@@ -34,7 +34,8 @@ export const Project = () => {
 
   useEffect(() => {
     if (!project) navigate('/')
-    fetch() // eslint-disable-next-line
+    fetch()
+    setAppContext({ ...appContext, headerOpen: false }) // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -178,43 +179,40 @@ export const Project = () => {
       </div>
 
       <div className="container">
-        <div className="creator">
-          <Button onClick={createTicket}>Create ticket</Button>{' '}
-        </div>
-        <div className="card__parent">
-          <div className="card__container">
-            {tickets
-              ? queue.map((el, index) => {
-                  const {
-                    number,
-                    issue,
-                    created,
-                    creator,
-                    id,
-                    severity,
-                    status,
-                    problem,
-                    touched,
-                    toucher
-                  } = el
+        <Button onClick={createTicket}>Create ticket</Button>{' '}
+        <div className="card-container">
+          {tickets
+            ? queue.map((el, index) => {
+                const {
+                  number,
+                  issue,
+                  created,
+                  creator,
+                  id,
+                  severity,
+                  status,
+                  problem,
+                  touched,
+                  toucher
+                } = el
 
-                  return filter !== 'open' || status !== 'done' ? (
-                    <div key={index} className="card">
-                      <div className="card__body">
-                        <div className="card__header">Ticket #{number}</div>
-                        <div className="card__issue">
-                          {issue.length > 70 ? issue.substring(0, 70) + '{...}' : issue}
-                        </div>
-                        <div className="card__desc">
-                          <div className="card__desc__icon">{iconSeverity(severity, status)}</div>
-                          <div className="card__desc__status">
-                            <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
-                            <div>
-                              Status:{' '}
-                              {status === 'work' ? 'In work' : status === 'new' ? 'New' : 'Closed'}
-                            </div>
+                return filter !== 'open' || status !== 'done' ? (
+                  <div key={index} className="card">
+                    <div className="card__body">
+                      <div className="card__header">Ticket #{number}</div>
+                      <div className="card__issue">
+                        {issue.length > 70 ? issue.substring(0, 70) + '{...}' : issue}
+                      </div>
+                      <div className="card__desc">
+                        <div className="card__desc__icon">{iconSeverity(severity, status)}</div>
+                        <div className="card__desc__status">
+                          <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
+                          <div>
+                            Status:{' '}
+                            {status === 'work' ? 'In work' : status === 'new' ? 'New' : 'Closed'}
                           </div>
                         </div>
+                      </div>
                       <div className="card__timestamps">
                         <div className="card__timestamps__left">Created:</div>
                         <div>
@@ -227,19 +225,18 @@ export const Project = () => {
                           {isotime(touched)} by {usersContext[toucher].name}
                         </div>
                       </div>
-                        <Button
-                          onClick={() => openModalHandler(tickets[id])}
-                          className="card__button"
-                        >
-                          View ticket
-                        </Button>
-                        {drawModal()}
-                      </div>
+                      <Button
+                        onClick={() => openModalHandler(tickets[id])}
+                        className="card__button"
+                      >
+                        View ticket
+                      </Button>
+                      {drawModal()}
                     </div>
-                  ) : null
-                })
-              : null}
-          </div>
+                  </div>
+                ) : null
+              })
+            : null}
         </div>
       </div>
     </>

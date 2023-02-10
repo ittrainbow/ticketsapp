@@ -25,7 +25,7 @@ export const ProjectList = () => {
       <div className="filters"></div>
 
       <div className="container padding">
-        <div className="card__container">
+        <div className="card-container">
           {projectsContext
             ? Object.keys(projectsContext).map((el, index) => {
                 const { description } = projectsContext[el]
