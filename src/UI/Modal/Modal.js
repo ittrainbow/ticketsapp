@@ -1,21 +1,15 @@
 import React from 'react'
-import {
-  MdNewReleases,
-  MdAccessTimeFilled,
-  MdSmartphone,
-  MdSettingsApplications,
-  MdOutlineCheckBox,
-  MdOutlineDoubleArrow
-} from 'react-icons/md'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import { Button } from '@mui/material'
 
 import './Modal.scss'
 
+import { Dropdown } from '../Dropdown/Dropdown'
+
 export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, submitHandler) => {
-  const { issue, solution, severityhigh, functional, fixed } = tempTicket
-  
+  const { issue, solution, severity, problem, status } = tempTicket
+
   const style = {
     textAlign: 'center',
     position: 'relative',
@@ -29,40 +23,57 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
     p: 4
   }
 
-  const btnSeverity = () => {
-    return (
-      <div className="modal__icons__inner">
-        <div className="modal__icons__text">High/Low</div>
-        <div onClick={() => setTempTicket({ ...tempTicket, severityhigh: !severityhigh })}>
-          <MdNewReleases className={severityhigh ? 'red' : null} />
-          <MdAccessTimeFilled className={severityhigh ? null : 'yellow'} />
-        </div>
-      </div>
-    )
+  const severityDropDown = () => {
+    const list = [
+      { value: 'high', text: 'High' },
+      { value: 'avg', text: 'Avg' },
+      { value: 'low', text: 'Low' }
+    ]
+
+    return Dropdown({
+      size: 'small',
+      label: 'Severity',
+      inputId: 'demo-simple-select-label',
+      value: severity,
+      list,
+      minWidth: 85,
+      onChange: (e) => setTempTicket({ ...tempTicket, severity: e.target.value})
+    })
   }
 
-  const btnClass = () => {
-    return (
-      <div className="modal__icons__inner">
-        <div className="modal__icons__text">UI/Func</div>
-        <div onClick={() => setTempTicket({ ...tempTicket, functional: !functional })}>
-          <MdSmartphone className={functional ? null : 'blue'} />
-          <MdSettingsApplications className={functional ? 'blue' : null} />
-        </div>
-      </div>
-    )
+  const classDropDown = () => {
+    const list = [
+      { value: 'func', text: 'Functional' },
+      { value: 'ui', text: 'UI' }
+    ]
+
+    return Dropdown({
+      size: 'small',
+      label: 'Class',
+      inputId: 'demo-simple-select-label',
+      value: problem,
+      list,
+      minWidth: 100,
+      onChange: (e) => setTempTicket({ ...tempTicket, problem: e.target.value})
+    })
   }
 
-  const btnStatus = () => {
-    return (
-      <div className="modal__icons__inner">
-        <div className="modal__icons__text">Done/Yet</div>
-        <div onClick={() => setTempTicket({ ...tempTicket, fixed: !fixed })}>
-          <MdOutlineCheckBox className={fixed ? 'green' : null} />
-          <MdOutlineDoubleArrow className={fixed ? null : 'red'} />
-        </div>
-      </div>
-    )
+  const statusDropDown = () => {
+    const list = [
+      { value: 'new', text: 'New' },
+      { value: 'work', text: 'Work' },
+      { value: 'done', text: 'Done' }
+    ]
+
+    return Dropdown({
+      size: 'small',
+      label: 'Status',
+      inputId: 'demo-simple-select-label',
+      value: status,
+      list,
+      minWidth: 85,
+      onChange: (e) => setTempTicket({ ...tempTicket, status: e.target.value})
+    })
   }
 
   return (
@@ -89,9 +100,9 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
           ></textarea>
         </div>
         <div className="modal__icons">
-          {btnSeverity()}
-          {btnClass()}
-          {btnStatus()}
+          {severityDropDown()}
+          {classDropDown()}
+          {statusDropDown()}
         </div>
         <div className="modal__buttons">
           <Button className="modal__buttons__btn" onClick={submitHandler}>

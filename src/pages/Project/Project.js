@@ -3,14 +3,7 @@ import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import {
-  MdNewReleases,
-  MdAccessTimeFilled,
-  MdSmartphone,
-  MdSettingsApplications,
-  MdOutlineCheckBox,
-  MdOutlineDoubleArrow
-} from 'react-icons/md'
+import { MdNewReleases, MdOutlineCheckBox } from 'react-icons/md'
 import { Button } from '@mui/material'
 import moment from 'moment/moment'
 
@@ -48,6 +41,18 @@ export const Project = () => {
     if (tickets) sortTickets(sort) // eslint-disable-next-line
   }, [tickets])
 
+  const iconSeverity = (severity, status) => {
+    return status === 'done' ? (
+      <MdOutlineCheckBox className="icon grey" />
+    ) : (
+      <MdNewReleases
+        className={
+          'icon ' + (severity === 'high' ? 'red' : severity === 'avg' ? 'orange' : 'yellow')
+        }
+      />
+    )
+  }
+
   const createTicket = () => {
     const date = new Date().getTime()
 
@@ -57,9 +62,9 @@ export const Project = () => {
       touched: date,
       creator: uid,
       toucher: uid,
-      fixed: false,
-      functional: false,
-      severityhigh: false,
+      status: '',
+      problem: '',
+      severity: '',
       issue: '',
       solution: ''
     })
@@ -174,63 +179,62 @@ export const Project = () => {
       </div>
 
       <div className="container">
-        <div className="card__container">
-          <div className="card__creator">
-            <Button onClick={createTicket} className="create-button">
-              Create ticket
-            </Button>
-          </div>
-          {tickets
-            ? queue.map((el, index) => {
-                const {
-                  issue,
-                  created,
-                  creator,
-                  severityhigh,
-                  id,
-                  functional,
-                  fixed,
-                  touched,
-                  toucher
-                } = el
+        <div className="card__creator">
+          <Button onClick={createTicket}>Create ticket</Button>{' '}
+        </div>
+        <div className="card__parent">
+          <div className="card__container">
+            {tickets
+              ? queue.map((el, index) => {
+                  const {
+                    issue,
+                    created,
+                    creator,
+                    id,
+                    severity,
+                    status,
+                    problem,
+                    touched,
+                    toucher
+                  } = el
 
-                return filter !== 'open' || !fixed ? (
-                  <div key={index} className="card">
-                    <div className="card__body">
-                      <div className="card__issue">
-                        {issue.substring(0, 80) + (issue.length > 80 ? '{...}' : '')}
-                      </div>
-                      <div className="card__icons">
-                        <div className="card__icons__left">
-                          {fixed ? (
-                            <MdOutlineCheckBox className="green" />
-                          ) : (
-                            <MdOutlineDoubleArrow className="red" />
-                          )}
+                  return filter !== 'open' || status !== 'done' ? (
+                    <div key={index} className="card">
+                      <div className="card__body">
+                        <div className="card__issue">
+                          {issue.substring(0, 80) + (issue.length > 80 ? '{...}' : '')}
                         </div>
-                        <div>{severityhigh ? <MdNewReleases /> : <MdAccessTimeFilled />}</div>
-                        <div>{functional ? <MdSettingsApplications /> : <MdSmartphone />}</div>
-                      </div>
-                      <div className="card__time">
-                        <div>
-                          Created {isotime(created)} ({usersContext[creator].name})
+                        <div className="card__desc">
+                          <div>{iconSeverity(severity, status)}</div>
+                          <div>
+                            <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
+                            <div>
+                              Status:{' '}
+                              {status === 'work' ? 'In work' : status === 'new' ? 'New' : 'Closed'}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          Touched {isotime(touched)} ({usersContext[toucher].name})
+                        <div className="card__timestamps">
+                          <div>
+                            Created: {isotime(created)} by {usersContext[creator].name}
+                          </div>
+                          <div>
+                            Touched: {isotime(touched)} by {usersContext[toucher].name}
+                          </div>
                         </div>
+                        <Button
+                          onClick={() => openModalHandler(tickets[id])}
+                          className="card__button"
+                        >
+                          View ticket
+                        </Button>
+                        {drawModal()}
                       </div>
-                      <Button
-                        onClick={() => openModalHandler(tickets[id])}
-                        className="card__button"
-                      >
-                        View ticket
-                      </Button>
-                      {drawModal()}
                     </div>
-                  </div>
-                ) : null
-              })
-            : null}
+                  ) : null
+                })
+              : null}
+          </div>
         </div>
       </div>
     </div>

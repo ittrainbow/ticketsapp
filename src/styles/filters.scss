@@ -1,16 +1,16 @@
 .filters {
   display: flex;
   flex-direction: row;
-  height: 48px;
+  height: 50px;
   padding-left: 60px;
   width: calc(100% - 75px);
-  max-width: 400px;
-  gap: 5px;
+  max-width: 500px;
+  gap: 2px;
 
   @media only screen and (max-width: 500px) {
-    height: 60px;
-    padding-left: 75px;
+    height: 55px;
     padding-top: 6px;
+    padding-left: 75px;
     max-width: calc(100% - 90px);
   }
 }
