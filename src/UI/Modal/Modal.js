@@ -22,7 +22,6 @@ export const TicketModal = ({
     top: '3%',
     left: '50%',
     transform: 'translate(-50%, 0%)',
-    width: '300px',
     bgcolor: 'background.paper',
     borderRadius: '10px',
     boxShadow: 24,
@@ -86,33 +85,36 @@ export const TicketModal = ({
     <Modal open={modalOpen} onClose={closeModalHandler}>
       <Box sx={style} className="modal">
         <div className="modal__issue">
+          Issue
           <textarea
             type="text"
             className="modal__issue__textbox"
             value={issue}
-            placeholder="Issue"
+            placeholder="Input issue title (necessary)"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, issue: e.target.value })
             }}
           ></textarea>
         </div>
         <div className="modal__description">
+          Description
           <textarea
             type="text"
             className="modal__description__textbox"
             value={description}
-            placeholder="Description"
+            placeholder="Put description here or keep empty"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, description: e.target.value })
             }}
           ></textarea>
         </div>
         <div className="modal__solution" sx={{ mt: 2 }}>
+          Solution
           <textarea
             type="text"
             className="modal__solution__textbox"
             value={solution}
-            placeholder="Solution"
+            placeholder="Put solution here or keep empty"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, solution: e.target.value })
             }}

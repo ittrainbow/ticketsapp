@@ -241,9 +241,9 @@ export const Project = () => {
                 ) : null
               })
             : null}
-          {drawModal()}
         </div>
       </div>
+      {drawModal()}
     </>
   )
 }
