@@ -7,8 +7,13 @@ import './Modal.scss'
 
 import { Dropdown } from '../Dropdown/Dropdown'
 
-export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, submitHandler) => {
-  // console.log(5, tempTicket)
+export const TicketModal = ({
+  tempTicket,
+  modalOpen,
+  closeModalHandler,
+  setTempTicket,
+  submitHandler
+}) => {
   const { issue, solution, severity, problem, status } = tempTicket
 
   const style = {
@@ -77,10 +82,8 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
     })
   }
 
-  // const disabled =
-
   return (
-    <Modal open={open} onClose={closeModalHandler}>
+    <Modal open={modalOpen} onClose={closeModalHandler}>
       <Box sx={style} className="modal">
         <div className="modal__issue">
           <textarea

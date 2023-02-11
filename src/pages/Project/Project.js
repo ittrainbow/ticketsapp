@@ -14,7 +14,7 @@ import '../../styles/filters.scss'
 import { db, auth } from '../../db'
 import { Context } from '../../App'
 import { setLoading } from '../../redux/actions'
-import { Dropdown, ticketModal } from '../../UI'
+import { Dropdown, TicketModal } from '../../UI'
 import { getNewTicketHelper, sortTicketsHelper } from '../../helpers'
 
 export const Project = () => {
@@ -126,7 +126,7 @@ export const Project = () => {
 
   const drawModal = () => {
     return modalOpen
-      ? ticketModal(tempTicket, modalOpen, closeModalHandler, setTempTicket, submitHandler)
+      ? TicketModal({ tempTicket, modalOpen, closeModalHandler, setTempTicket, submitHandler })
       : null
   }
 
@@ -209,7 +209,7 @@ export const Project = () => {
                         <div className="card__desc__status">
                           <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
                           <div>
-                            Status:{' '}
+                            Status:
                             {status === 'work' ? 'In work' : status === 'new' ? 'New' : 'Closed'}
                           </div>
                         </div>

@@ -13,14 +13,14 @@
   background-color: white;
   max-width: 300px;
 
-  &:hover {
-    transform: scale(1.05);
-    background-color: #f7f7f7;
-  }
-
   @media only screen and (max-width: 500px) {
     width: 100%;
     max-width: 400px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #f7f7f7;
   }
 
   &__body {
@@ -76,14 +76,6 @@
   &__timestamps {
     display: flex;
     font-size: 12px;
-
-    &__left {
-      width: 50px;
-    }
-  }
-
-  &__button {
-    flex-grow: 0.25;
-    padding: 0 !important;
+    gap: 10px;
   }
 }
