@@ -6,6 +6,10 @@
   gap: 5px;
 
   &__issue {
+    flex-grow: 0.1;
+  }
+
+  &__description {
     flex-grow: 0.55;
   }
 
@@ -21,8 +25,9 @@
   }
 
   &__issue,
-  &__icons,
-  &__solution {
+  &__description,
+  &__solution,
+  &__icons {
     &__textbox {
       height: 100%;
     }
@@ -37,7 +42,6 @@
     &__btn {
       padding: 0 !important;
       background-color: azure;
-      border: 2px solid lightskyblue;
     }
   }
 }

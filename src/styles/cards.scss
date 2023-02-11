@@ -62,7 +62,7 @@
     &__icon {
       font-size: 36px;
       margin-left: -2px;
-      padding-right: 10px;
+      padding-right: 5px;
       height: 30px;
     }
   
@@ -78,4 +78,12 @@
     font-size: 12px;
     gap: 10px;
   }
+}
+
+.flex {
+  display: flex;
+}
+
+.w40 {
+  width: 40px;
 }

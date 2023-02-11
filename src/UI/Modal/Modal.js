@@ -14,7 +14,7 @@ export const TicketModal = ({
   setTempTicket,
   submitHandler
 }) => {
-  const { issue, solution, severity, problem, status } = tempTicket
+  const { issue, description, solution, severity, problem, status } = tempTicket
 
   const style = {
     textAlign: 'center',
@@ -90,8 +90,20 @@ export const TicketModal = ({
             type="text"
             className="modal__issue__textbox"
             value={issue}
+            placeholder="Issue"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, issue: e.target.value })
+            }}
+          ></textarea>
+        </div>
+        <div className="modal__description">
+          <textarea
+            type="text"
+            className="modal__description__textbox"
+            value={description}
+            placeholder="Description"
+            onChange={(e) => {
+              setTempTicket({ ...tempTicket, description: e.target.value })
             }}
           ></textarea>
         </div>
@@ -100,6 +112,7 @@ export const TicketModal = ({
             type="text"
             className="modal__solution__textbox"
             value={solution}
+            placeholder="Solution"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, solution: e.target.value })
             }}
