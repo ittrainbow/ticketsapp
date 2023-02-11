@@ -7,9 +7,14 @@ import './Modal.scss'
 
 import { Dropdown } from '../Dropdown/Dropdown'
 
-export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, submitHandler) => {
-  // console.log(5, tempTicket)
-  const { issue, solution, severity, problem, status } = tempTicket
+export const TicketModal = ({
+  tempTicket,
+  modalOpen,
+  closeModalHandler,
+  setTempTicket,
+  submitHandler
+}) => {
+  const { issue, description, solution, severity, problem, status } = tempTicket
 
   const style = {
     textAlign: 'center',
@@ -17,7 +22,6 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
     top: '3%',
     left: '50%',
     transform: 'translate(-50%, 0%)',
-    width: '300px',
     bgcolor: 'background.paper',
     borderRadius: '10px',
     boxShadow: 24,
@@ -77,26 +81,40 @@ export const ticketModal = (tempTicket, open, closeModalHandler, setTempTicket, 
     })
   }
 
-  // const disabled =
-
   return (
-    <Modal open={open} onClose={closeModalHandler}>
+    <Modal open={modalOpen} onClose={closeModalHandler}>
       <Box sx={style} className="modal">
         <div className="modal__issue">
+          Issue
           <textarea
             type="text"
             className="modal__issue__textbox"
             value={issue}
+            placeholder="Input issue title (necessary)"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, issue: e.target.value })
             }}
           ></textarea>
         </div>
+        <div className="modal__description">
+          Description
+          <textarea
+            type="text"
+            className="modal__description__textbox"
+            value={description}
+            placeholder="Put description here or keep empty"
+            onChange={(e) => {
+              setTempTicket({ ...tempTicket, description: e.target.value })
+            }}
+          ></textarea>
+        </div>
         <div className="modal__solution" sx={{ mt: 2 }}>
+          Solution
           <textarea
             type="text"
             className="modal__solution__textbox"
             value={solution}
+            placeholder="Put solution here or keep empty"
             onChange={(e) => {
               setTempTicket({ ...tempTicket, solution: e.target.value })
             }}

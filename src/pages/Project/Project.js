@@ -14,7 +14,7 @@ import '../../styles/filters.scss'
 import { db, auth } from '../../db'
 import { Context } from '../../App'
 import { setLoading } from '../../redux/actions'
-import { Dropdown, ticketModal } from '../../UI'
+import { Dropdown, TicketModal } from '../../UI'
 import { getNewTicketHelper, sortTicketsHelper } from '../../helpers'
 
 export const Project = () => {
@@ -67,6 +67,7 @@ export const Project = () => {
       problem: '',
       severity: '',
       issue: '',
+      description: '',
       solution: ''
     })
 
@@ -126,7 +127,7 @@ export const Project = () => {
 
   const drawModal = () => {
     return modalOpen
-      ? ticketModal(tempTicket, modalOpen, closeModalHandler, setTempTicket, submitHandler)
+      ? TicketModal({ tempTicket, modalOpen, closeModalHandler, setTempTicket, submitHandler })
       : null
   }
 
@@ -207,21 +208,24 @@ export const Project = () => {
                       <div className="card__desc">
                         <div className="card__desc__icon">{iconSeverity(severity, status)}</div>
                         <div className="card__desc__status">
-                          <div>Class: {problem === 'ui' ? 'UI' : 'Functional'}</div>
-                          <div>
-                            Status:{' '}
+                          <div className="flex">
+                            <div className="w40">Class:</div>
+                            {problem === 'ui' ? 'UI' : 'Functional'}
+                          </div>
+                          <div className="flex">
+                            <div className="w40">Status:</div>
                             {status === 'work' ? 'In work' : status === 'new' ? 'New' : 'Closed'}
                           </div>
                         </div>
                       </div>
                       <div className="card__timestamps">
-                        <div className="card__timestamps__left">Created:</div>
+                        <div className="w40">Created:</div>
                         <div>
                           {isotime(created)} by {usersContext[creator].name}
                         </div>
                       </div>
                       <div className="card__timestamps">
-                        <div className="card__timestamps__left">Edited:</div>{' '}
+                        <div className="w40">Edited:</div>{' '}
                         <div>
                           {isotime(touched)} by {usersContext[toucher].name}
                         </div>
@@ -237,9 +241,9 @@ export const Project = () => {
                 ) : null
               })
             : null}
-          {drawModal()}
         </div>
       </div>
+      {drawModal()}
     </>
   )
 }
