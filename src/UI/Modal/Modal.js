@@ -12,7 +12,8 @@ export const TicketModal = ({
   modalOpen,
   closeModalHandler,
   setTempTicket,
-  submitHandler
+  submitHandler,
+  user
 }) => {
   const { issue, description, solution, severity, problem, status } = tempTicket
 
@@ -67,6 +68,7 @@ export const TicketModal = ({
     const list = [
       { value: 'new', text: 'New' },
       { value: 'work', text: 'Work' },
+      { value: 'totest', text: 'To test'},
       { value: 'done', text: 'Done' }
     ]
 
@@ -128,7 +130,7 @@ export const TicketModal = ({
         <div className="modal__buttons">
           <Button
             className="modal__buttons__btn"
-            disabled={!status || !problem || !severity || !issue}
+            disabled={!status || !problem || !severity || !issue ||!user}
             onClick={submitHandler}
           >
             Submit

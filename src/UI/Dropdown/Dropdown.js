@@ -13,7 +13,6 @@ export const Dropdown = ({
   value,
   list
 }) => {
-  console.log(width)
   return (
     <div className="dropdown">
       <FormControl sx={{ m: 1, width: width + (isMobile ? 0 : 32) }} size={size}>

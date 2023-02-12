@@ -1,7 +1,6 @@
 export const sortTicketsHelper = (input, style) => {
   const sorted = {}
   
-  
   Object.keys(input).forEach(el => input[el]['id'] = el)
   Object.keys(input)
     .sort((a, b) => {
