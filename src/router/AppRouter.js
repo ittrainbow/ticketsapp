@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { Login, Register, UserPage, Reset, Profile } from '../authPages'
 import { Loader } from '../UI'
-import { Header, ProjectList, Project } from '../pages'
+import { Header, ProjectList, Project, Home } from '../pages'
 
 const AppRouter = () => {
   const { loading } = useSelector((state) => state)
@@ -21,7 +21,8 @@ const AppRouter = () => {
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/dashboard" element={<UserPage />} />
           <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/" element={<ProjectList />} />
+          <Route exact path="/list" element={<ProjectList />} />
+          <Route exact path="/" element={<Home />} />
           <Route path="/project/:id" element={<Project />} />
         </Routes>
       )}

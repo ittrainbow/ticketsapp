@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 
 import { Context } from '../App'
@@ -18,13 +18,15 @@ export const Init = () => {
   const fetch = async () => {
     try {
       dispatch(setLoading(true))
-      await getDocs(collection(db, 'projects')).then((response) => {
+      const projects = query(collection(db, 'projects'))
+      await getDocs(projects).then((response) => {
         const obj = {}
         response.forEach((el) => (obj[el.id] = el.data()))
         setProjectsContext(obj)
       })
 
-      await getDocs(collection(db, 'users')).then((response) => {
+      const users = query(collection(db, 'users'))
+      await getDocs(users).then((response) => {
         const obj = {}
         response.forEach((el) => (obj[el.id] = el.data()))
         setUsersContext(obj)
