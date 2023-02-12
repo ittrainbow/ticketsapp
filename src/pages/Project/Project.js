@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { collection, doc, getDocs, setDoc, query } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { MdNewReleases, MdOutlineCheckBox } from 'react-icons/md'
 import { Button } from '@mui/material'
@@ -13,15 +12,13 @@ import '../../styles/filters.scss'
 
 import { db, auth } from '../../db'
 import { Context } from '../../App'
-import { setLoading } from '../../redux/actions'
 import { Dropdown, TicketModal } from '../../UI'
 import { getNewTicketHelper, sortTicketsHelper } from '../../helpers'
 
 export const Project = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { appContext, setAppContext, usersContext } = useContext(Context)
+  const { appContext, setAppContext, usersContext, setLoading } = useContext(Context)
   const { project } = appContext
 
   const [tickets, setTickets] = useState()
@@ -104,7 +101,7 @@ export const Project = () => {
   const submitHandler = async () => {
     const { uid } = user
     try {
-      dispatch(setLoading(true))
+      setLoading(true)
       const data = { ...tempTicket, toucher: uid, touched: new Date().getTime() }
       delete data['id']
       setTickets({ ...tickets, id: tempTicket })
@@ -113,7 +110,7 @@ export const Project = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      dispatch(setLoading(false))
+      setLoading(false)
     }
   }
 

@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 import { Login, Register, UserPage, Reset, Profile } from '../authPages'
 import { Loader } from '../UI'
 import { Header, ProjectList, Project, Home } from '../pages'
 
+import { Context } from '../App'
+
 const AppRouter = () => {
-  const { loading } = useSelector((state) => state)
+  const { appContext } = useContext(Context)
+  const { loading } = appContext
 
   return (
     <BrowserRouter>
