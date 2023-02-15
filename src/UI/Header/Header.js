@@ -5,7 +5,6 @@ import {
   MdOpenWith,
   MdLogout,
   MdAccountCircle,
-  // MdLibraryAdd,
   MdFormatListNumbered
 } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
@@ -53,7 +52,6 @@ export const Header = () => {
   ]
 
   const iconsAuth = [
-    // { id: 'new', icon: headerOpen ? <MdLibraryAdd /> : null },
     { id: 'list', icon: headerOpen ? <MdFormatListNumbered /> : null },
     { id: 'logout', icon: headerOpen ? <MdLogout /> : null }
   ]

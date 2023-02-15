@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Button, Input } from '@mui/material'
+import { Button, OutlinedInput, Stack } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 
@@ -46,33 +46,40 @@ export const Login = () => {
   }
 
   return (
-    <div className="auth">
-      <div className="auth__container">
-        <Input
+    <Stack mt={10} alignItems="center">
+      <Stack direction="column" spacing={1} width={250} alignItems="center">
+        <OutlinedInput
+          sx={{height: '50px', width: '250px'}}
           type="text"
           value={email}
           onChange={(e) => emailInputHandler(e.target.value)}
           placeholder="E-mail"
         />
-        <Input
+        <OutlinedInput
+          sx={{height: '50px', width: '250px'}}
           type="password"
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder={'Password'}
         />
         <Button
-          className={'login'}
+          variant="contained"
+          color='secondary'
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
           Sign In
         </Button>
-        <Button className="google" onClick={signInWithGoogle}>
+        <Button variant="contained" color='primary' onClick={signInWithGoogle}>
           Google Sign In
         </Button>
-        <Button onClick={() => navigate('/reset')}>Recover Password</Button>
-        <Button onClick={() => navigate('/register')}>Sign Up</Button>
-      </div>
-    </div>
+        <Button variant="outlined" onClick={() => navigate('/reset')}>
+          Recover Password
+        </Button>
+        <Button variant="outlined" onClick={() => navigate('/register')}>
+          Sign Up
+        </Button>
+      </Stack>
+    </Stack>
   )
 }

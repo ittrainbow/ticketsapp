@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input } from '@mui/material'
+import { Button, Stack, OutlinedInput } from '@mui/material'
 
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
@@ -44,36 +44,39 @@ export const Register = () => {
   }, [loading, user, navigate])
 
   return (
-    <div className="auth">
-      <div className="auth__container">
-        <Input
-          type='text'
+    <Stack mt={10} alignItems="center">
+      <Stack direction="column" spacing={1} width={250} alignItems="center">
+        <OutlinedInput
+          sx={{ height: '50px', width: '250px' }}
+          type="text"
           value={name}
           onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
-          placeholder='Name'
+          placeholder="Name"
         />
-        <Input
-          type='email'
+        <OutlinedInput
+          sx={{ height: '50px', width: '250px' }}
+          type="email"
           value={email}
           onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
-          placeholder='E-mail'
+          placeholder="E-mail"
         />
-        <Input
-          type='password'
+        <OutlinedInput
+          sx={{ height: '50px', width: '250px' }}
+          type="password"
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-          placeholder='Password'
+          placeholder="Password"
         />
-        <Button className="login" onClick={register}>
+        <Button variant="contained" color="secondary" onClick={register}>
           Sign Up New User
         </Button>
-        <Button className="google" onClick={signInWithGoogle}>
+        <Button variant="contained" color="primary" onClick={signInWithGoogle}>
           Google Sign Up
         </Button>
-        <Button className="link-container" onClick={() => navigate('/login')}>
+        <Button variant="outlined" onClick={() => navigate('/login')}>
           Log In
         </Button>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
