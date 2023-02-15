@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { CircularProgress, Stack } from '@mui/material'
 
-import { Login, Register, UserPage, Reset, Profile } from '../authPages'
-import { Loader } from '../UI'
-import { Header, ProjectList, Project, Home } from '../pages'
+import { ProjectList, Project, Home, Login, Register, UserPage, Reset, Profile } from '../pages'
+import { Header } from '../UI/Header/Header'
 
 import { Context } from '../App'
 
@@ -15,7 +15,9 @@ const AppRouter = () => {
     <BrowserRouter>
       <Header />
       {loading ? (
-        <Loader />
+        <Stack sx={{ display: 'flex', width: '100%', alignItems: 'center', paddingTop: 15 }}>
+          <CircularProgress color="inherit" />
+        </Stack>
       ) : (
         <Routes>
           <Route exact path="/login" element={<Login />} />

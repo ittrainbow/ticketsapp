@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input } from '@mui/material'
+import { Button, OutlinedInput, Stack } from '@mui/material'
 import { setDoc, doc } from 'firebase/firestore'
-
-import './auth.scss'
 
 import { auth, db } from '../db'
 import { Context } from '../App'
@@ -34,14 +32,21 @@ export const Profile = () => {
   const noChanges = name === tempName
 
   return (
-    <div className="auth">
-      <div className="auth__container">
-        <Input type={'text'} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-        <Button disabled={noChanges} onClick={submitHandler}>
+    <Stack mt={10} alignItems="center">
+      <Stack direction="column" spacing={1} width={250} alignItems="center">
+        <OutlinedInput
+          sx={{ height: '50px', width: '250px' }}
+          type={'text'}
+          onChange={(e) => setTempName(e.target.value)}
+          value={tempName}
+        />
+        <Button variant="contained" color="secondary" disabled={noChanges} onClick={submitHandler}>
           {noChanges ? 'No changes' : 'Save'}
         </Button>
-        <Button onClick={() => navigate(-1)}>Cancel</Button>
-      </div>
-    </div>
+        <Button variant="outlined" onClick={() => navigate(-1)}>
+          Cancel
+        </Button>
+      </Stack>
+    </Stack>
   )
 }

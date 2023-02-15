@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input } from '@mui/material'
-
-import './auth.scss'
+import { Button, Stack, OutlinedInput } from '@mui/material'
 
 import { auth } from '../db/firebase'
 import { sendPasswordReset } from '../db/auth'
@@ -19,24 +17,25 @@ export const Reset = () => {
   }, [user, loading, navigate])
 
   return (
-    <div className="auth">
-      <div className="auth__container">
-        <Input
-          type='email'
+    <Stack mt={10} alignItems="center">
+      <Stack direction="column" spacing={1} width={250} alignItems="center">
+        <OutlinedInput
+          sx={{ height: '50px', width: '250px' }}
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder='E-mail'
+          placeholder="E-mail"
         />
-        <Button className="login" onClick={() => sendPasswordReset(email)}>
+        <Button variant="contained" color='secondary' onClick={() => sendPasswordReset(email)}>
           Send recovery e-mail
         </Button>
-        <Button onClick={() => navigate('/register')}>
+        <Button variant="outlined" onClick={() => navigate('/register')}>
           Sign Up
         </Button>
-        <Button onClick={() => navigate('/login')}>
+        <Button variant="outlined" onClick={() => navigate('/login')}>
           Log In
         </Button>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
