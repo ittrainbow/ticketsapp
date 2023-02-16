@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import './App.scss'
-
 import AppRouter from './router/AppRouter'
 import { Init } from './components/init'
 
@@ -30,7 +28,7 @@ const App = () => {
       }}
     >
       <Init />
-      <AppRouter className="container" />
+      <AppRouter />
     </Context.Provider>
   )
 }
