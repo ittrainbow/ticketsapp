@@ -11,8 +11,6 @@ const initialState = {
   password: ''
 }
 
-123
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'EMAIL':
