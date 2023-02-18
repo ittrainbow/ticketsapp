@@ -18,21 +18,26 @@ export const Reset = () => {
 
   return (
     <Stack mt={10} alignItems="center">
-      <Stack direction="column" spacing={1} width={250} alignItems="center">
+      <Stack direction="column" spacing={1} width={220} alignItems="center">
         <OutlinedInput
-          sx={{ height: '50px', width: '250px' }}
+          sx={{ height: '40px' }}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail"
         />
-        <Button variant="contained" color='secondary' onClick={() => sendPasswordReset(email)}>
+        <Button
+          variant="contained"
+          fullWidth={true}
+          color="secondary"
+          onClick={() => sendPasswordReset(email)}
+        >
           Send recovery e-mail
         </Button>
-        <Button variant="outlined" onClick={() => navigate('/register')}>
+        <Button variant="outlined" fullWidth={true} onClick={() => navigate('/register')}>
           Sign Up
         </Button>
-        <Button variant="outlined" onClick={() => navigate('/login')}>
+        <Button variant="outlined" fullWidth={true} onClick={() => navigate('/login')}>
           Log In
         </Button>
       </Stack>

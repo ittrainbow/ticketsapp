@@ -17,13 +17,18 @@ export const Dashboard = () => {
 
   return (
     <Stack mt={10} alignItems="center">
-      <Stack direction="column" spacing={1} width={250} alignItems="center">
-        <Stack>Name: {user ? user.displayName : '...fetching'}</Stack>
-        <Stack>E-mail: {user ? user.email : '...fetching'}</Stack>
-        <Button variant="contained" color="secondary" onClick={() => navigate('/profile')}>
+      <Stack direction="column" spacing={1} width={220} alignItems="center">
+        <Stack>{user ? user.displayName : '...fetching'}</Stack>
+        <Stack>{user ? user.email : '...fetching'}</Stack>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={() => navigate('/profile')}
+        >
           Edit profile
         </Button>
-        <Button variant="outlined" onClick={logoutHandler}>
+        <Button variant="outlined" fullWidth={true} onClick={logoutHandler}>
           Log Out
         </Button>
       </Stack>

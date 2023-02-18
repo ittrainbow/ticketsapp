@@ -33,17 +33,23 @@ export const Profile = () => {
 
   return (
     <Stack mt={10} alignItems="center">
-      <Stack direction="column" spacing={1} width={250} alignItems="center">
+      <Stack direction="column" spacing={1} width={220} alignItems="center">
         <OutlinedInput
-          sx={{ height: '50px', width: '250px' }}
+          sx={{ height: '40px' }}
           type={'text'}
           onChange={(e) => setTempName(e.target.value)}
           value={tempName}
         />
-        <Button variant="contained" color="secondary" disabled={noChanges} onClick={submitHandler}>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          disabled={noChanges}
+          onClick={submitHandler}
+        >
           {noChanges ? 'No changes' : 'Save'}
         </Button>
-        <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Button variant="outlined" fullWidth={true} onClick={() => navigate(-1)}>
           Cancel
         </Button>
       </Stack>
