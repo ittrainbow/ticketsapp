@@ -9,10 +9,10 @@ import {
 } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
-import './Header.scss'
+import '../App.scss'
 
-import { auth, logout } from '../../db'
-import { Context } from '../../App'
+import { auth, logout } from '../db'
+import { Context } from '../App'
 
 export const Header = () => {
   const { appContext, setAppContext } = useContext(Context)

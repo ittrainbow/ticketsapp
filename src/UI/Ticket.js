@@ -114,7 +114,7 @@ export const Ticket = ({
           {classDropDown()}
           {statusDropDown()}
         </Stack>
-        <ButtonGroup variant="text">
+        <ButtonGroup variant="text" fullWidth={true}>
           <Button
             disabled={!status || !problem || !severity || !issue || !user}
             onClick={submitHandler}

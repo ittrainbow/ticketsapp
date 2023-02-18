@@ -1,18 +1,3 @@
-.container {
-  justify-content: center;
-  position: relative;
-  padding: 0 15px;
-  width: calc(100% - 30px);
-
-  &__auth {
-    text-align: center;
-    justify-content: center;
-    max-width: 250px;
-    flex-direction: column;
-    padding: 30px;
-  }
-}
-
 body,
 html {
   background-color: #f6f7f9;
@@ -24,24 +9,38 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  height: 100%;
-}
+.header {
+  position: fixed;
+  z-index: 2;
+  background-color: black;
+  transition: 0.2s;
+  width: calc(100% + 40px);
+  height: 68px;
+  top: -20px;
+  left: calc(15px - 100%);
+  border-radius: 20px;
 
-input,
-button {
-  border-radius: 5px;
-  margin: 3px 0 3px;
-  width: 100%;
-  min-height: 38px;
-}
+  @media only screen and (max-width: 500px) {
+    top: -20px;
+    height: 80px;
+    left: calc(18px - 100%);
+  }
 
-input {
-  box-sizing: border-box;
-  margin: 3px 0 3px;
-  padding: 10px;
-}
+  &__show {
+    left: -20px;
+  }
 
-button {
-  cursor: pointer;
+  &__icon {
+    z-index: 2;
+    position: fixed;
+    color: #f6f7f9;
+    font-size: 35px;
+    padding: 0.075em;
+    cursor: pointer;
+
+    @media only screen and (max-width: 500px) {
+      padding-top: 9px;
+      font-size: 40px;
+    }
+  }
 }

@@ -47,16 +47,16 @@ export const Login = () => {
 
   return (
     <Stack mt={10} alignItems="center">
-      <Stack direction="column" spacing={1} width={250} alignItems="center">
+      <Stack direction="column" spacing={1} width={220} alignItems="center">
         <OutlinedInput
-          sx={{height: '50px', width: '250px'}}
+          sx={{ height: '40px' }}
           type="text"
           value={email}
           onChange={(e) => emailInputHandler(e.target.value)}
           placeholder="E-mail"
         />
         <OutlinedInput
-          sx={{height: '50px', width: '250px'}}
+          sx={{ height: '40px' }}
           type="password"
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
@@ -64,19 +64,20 @@ export const Login = () => {
         />
         <Button
           variant="contained"
-          color='secondary'
+          color="secondary"
+          fullWidth={true}
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
           Sign In
         </Button>
-        <Button variant="contained" color='primary' onClick={signInWithGoogle}>
+        <Button variant="contained" color="primary" fullWidth={true} onClick={signInWithGoogle}>
           Google Sign In
         </Button>
-        <Button variant="outlined" onClick={() => navigate('/reset')}>
+        <Button variant="outlined" fullWidth={true} onClick={() => navigate('/reset')}>
           Recover Password
         </Button>
-        <Button variant="outlined" onClick={() => navigate('/register')}>
+        <Button variant="outlined" fullWidth={true} onClick={() => navigate('/register')}>
           Sign Up
         </Button>
       </Stack>

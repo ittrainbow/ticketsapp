@@ -21,10 +21,17 @@ import { filterList, sortList } from '../helpers/helpers'
 const useStyles = makeStyles({
   card: {
     transition: '0.1s',
+    width: '100%',
+    maxWidth: 400,
     '&:hover': { transform: 'scale(1.04)' }
   },
   font12: {
     fontSize: '12px'
+  },
+  gridItem: {
+    border: '2px solid lightgrey',
+    borderRadius: '5px',
+    padding: '10px'
   }
 })
 
@@ -167,10 +174,10 @@ export const Project = () => {
   }
 
   return (
-    <Stack>
-      <Stack direction="row" ml={8}>
-        {filterDropDown()}
-        {sortDropDown()}
+    <Stack mb={2}>
+      <Stack direction="row" ml={6}>
+        <Stack width={105}>{filterDropDown()}</Stack>
+        <Stack>{sortDropDown()}</Stack>
       </Stack>
       <Button onClick={createTicket} disabled={!user}>
         Create ticket
@@ -183,15 +190,8 @@ export const Project = () => {
 
               return filter !== 'open' || status !== 'done' ? (
                 <Grid item key={index} className={classes.card}>
-                  <Stack
-                    spacing={1}
-                    height={210}
-                    width={300}
-                    sx={{ border: '2px solid lightgrey', borderRadius: '5px', padding: '10px' }}
-                  >
-                    <Typography width={300} variant="h6">
-                      Ticket #{number}
-                    </Typography>
+                  <Stack spacing={1} height={210} className={classes.gridItem}>
+                    <Typography variant="h6">Ticket #{number}</Typography>
                     <Stack minHeight={40}>
                       <Typography variant="body2">
                         {issue.length > 70 ? issue.substring(0, 70) + '{...}' : issue}
