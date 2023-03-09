@@ -66,7 +66,7 @@ export const Header = () => {
           const { id, icon } = el
           return (
             <div
-              key={index}
+              key={id}
               id={id}
               style={{ left: `calc(5px + ${index * 60}px)` }}
               className="header__icon"

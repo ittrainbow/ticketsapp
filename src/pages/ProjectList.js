@@ -37,10 +37,10 @@ export const ProjectList = () => {
   return (
     <Grid container mt={isMobile ? 7.5 : 6} mb={2} spacing={2}>
       {projectsContext
-        ? Object.keys(projectsContext).map((el, index) => {
+        ? Object.keys(projectsContext).map((el) => {
             const { description } = projectsContext[el]
             return (
-              <Grid item key={index} className={classes.card}>
+              <Grid item key={description} className={classes.card}>
                 <Stack spacing={2} className={classes.gridItem}>
                   <Typography variant="h5">{el}</Typography>
                   <Typography variant="subtitle1">{description}</Typography>

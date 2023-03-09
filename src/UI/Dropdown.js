@@ -7,10 +7,10 @@ export const Dropdown = ({ size, label, inputId, onChange, width, value, list })
     <FormControl sx={{ mt: isMobile ? 1.5 : 1, mb: 1, width: width + (isMobile ? 0 : 32) }} size={size}>
       <InputLabel id={inputId}>{label}</InputLabel>
       <Select value={value} label={label} onChange={onChange}>
-        {list.map((el, index) => {
+        {list.map((el) => {
           const { value, text } = el
           return (
-            <MenuItem key={index} value={value}>
+            <MenuItem key={value} value={value}>
               {text}
             </MenuItem>
           )

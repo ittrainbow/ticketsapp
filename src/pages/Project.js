@@ -184,12 +184,12 @@ export const Project = () => {
       </Button>
       <Grid container spacing={2}>
         {tickets
-          ? queue.map((el, index) => {
+          ? queue.map((el) => {
               const { number, issue, created, creator, id } = el
               const { severity, status, problem, touched, toucher } = el
 
               return filter !== 'open' || status !== 'done' ? (
-                <Grid item key={index} className={classes.card}>
+                <Grid item key={touched} className={classes.card}>
                   <Stack spacing={1} height={210} className={classes.gridItem}>
                     <Typography variant="h6">Ticket #{number}</Typography>
                     <Stack minHeight={40}>
