@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { collection, doc, getDocs, setDoc, query } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core'
 import moment from 'moment/moment'
 
 import { db, auth } from '../db'
-import { Context } from '../App'
+import { useAppContext } from '../context/context'
 import { Dropdown } from '../UI/Dropdown'
 import { Ticket } from '../UI/Ticket'
 import {
@@ -39,7 +39,7 @@ export const Project = () => {
   const classes = useStyles()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { appContext, setAppContext, usersContext, setLoading } = useContext(Context)
+  const { appContext, setAppContext, usersContext, setLoading } = useAppContext()
   const { project } = appContext
 
   const [tickets, setTickets] = useState()

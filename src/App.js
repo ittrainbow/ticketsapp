@@ -1,35 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import AppRouter from './router/AppRouter'
-import { Init } from './components/init'
-
-export const Context = React.createContext()
-const initialContext = { project: null, headerOpen: true, loading: true }
+import { ContextProvider } from './context/context'
 
 const App = () => {
-  const [projectsContext, setProjectsContext] = useState()
-  const [appContext, setAppContext] = useState(initialContext)
-  const [usersContext, setUsersContext] = useState({})
-
-  const setLoading = (value) => {
-    setAppContext({ ...appContext, loading: value })
-  }
-
   return (
-    <Context.Provider
-      value={{
-        projectsContext,
-        setProjectsContext,
-        appContext,
-        setAppContext,
-        setLoading,
-        usersContext,
-        setUsersContext
-      }}
-    >
-      <Init />
+    <ContextProvider>
       <AppRouter />
-    </Context.Provider>
+    </ContextProvider>
   )
 }
 

@@ -1,14 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CircularProgress, Stack } from '@mui/material'
 
 import { ProjectList, Project, Home, Login, Register, UserPage, Reset, Profile } from '../pages'
 import { Header } from '../UI/Header'
-
-import { Context } from '../App'
+import { useAppContext } from '../context/context'
 
 const AppRouter = () => {
-  const { appContext } = useContext(Context)
+  const { appContext } = useAppContext()
   const { loading } = appContext
 
   return (

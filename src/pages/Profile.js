@@ -1,17 +1,17 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, OutlinedInput, Stack } from '@mui/material'
 import { setDoc, doc } from 'firebase/firestore'
 
 import { auth, db } from '../db'
-import { Context } from '../App'
+import { useAppContext } from '../context/context'
 
 export const Profile = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const { uid } = user
-  const { usersContext, setUsersContext, setLoading } = useContext(Context)
+  const { usersContext, setUsersContext, setLoading } = useAppContext()
   const { name } = usersContext[uid]
   const [tempName, setTempName] = useState(name)
 

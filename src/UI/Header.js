@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   MdHighlightOff,
@@ -12,10 +12,10 @@ import { useNavigate } from 'react-router-dom'
 import '../App.scss'
 
 import { auth, logout } from '../db'
-import { Context } from '../App'
+import { useAppContext } from '../context/context'
 
 export const Header = () => {
-  const { appContext, setAppContext } = useContext(Context)
+  const { appContext, setAppContext } = useAppContext()
   const { headerOpen } = appContext
   const navigate = useNavigate()
   const [user] = useAuthState(auth)

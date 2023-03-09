@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Stack, Grid, Typography } from '@mui/material'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core'
 
-import { Context } from '../App'
+import { useAppContext } from '../context/context'
 
 const useStyles = makeStyles({
   card: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 export const ProjectList = () => {
   const navigate = useNavigate()
   const classes = useStyles()
-  const { appContext, setAppContext, projectsContext } = useContext(Context)
+  const { appContext, setAppContext, projectsContext } = useAppContext()
 
   const onClickHandler = (project) => {
     setAppContext({ ...appContext, project })
